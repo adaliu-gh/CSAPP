@@ -1,0 +1,23 @@
+* CSAPP
+** PART 1
+*** Representing and Manipulating Information
+**** DONE 55
+CLOSED: [2016-09-06 二 20:22]
+**** DONE 57
+CLOSED: [2016-09-06 二 20:24]
+**** DONE 58
+CLOSED: [2016-09-06 二 20:25]
+**** DONE 59
+CLOSED: [2016-09-06 二 20:25]
+**** TODO 60
+**** DONE 61
+CLOSED: [2016-09-06 二 20:43]
+**** DONE 62
+CLOSED: [2016-09-06 二 20:48]
+**** 63
+**** 64
+**** 65
+**** 66
+**** 67
+
+** labs
