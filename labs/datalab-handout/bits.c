@@ -1,4 +1,4 @@
-/* 
+ /* 
  * CS:APP Data Lab 
  * 
  * <Please put your name and userid here>
@@ -139,9 +139,9 @@ NOTES:
  *   Rating: 1
  */
 int bitAnd(int x, int y) {
-  return 2;
+       return ~((~x)|(~y));
 }
-/* 
+/*
  * getByte - Extract byte n from word x
  *   Bytes numbered from 0 (LSB) to 3 (MSB)
  *   Examples: getByte(0x12345678,1) = 0x56
@@ -150,26 +150,24 @@ int bitAnd(int x, int y) {
  *   Rating: 2
  */
 int getByte(int x, int n) {
+  int mask=0xff<<(n<<3);
+  return (x&mask)>>(n<<3);
 
-
-
-
-
-
-
-  return 2;
-
+  /*another method (if unsigned int is allowed):
+   *x<<((3-n)<<3)>>24;
 }
-/* 
+/*
  * logicalShift - shift x to the right by n, using a logical shift
  *   Can assume that 0 <= n <= 31
  *   Examples: logicalShift(0x87654321,4) = 0x08765432
  *   Legal ops: ! ~ & ^ | + << >>
  *   Max ops: 20
- *   Rating: 3 
+ *   Rating: 3
  */
 int logicalShift(int x, int n) {
-  return 2;
+  int firstBit=x&0x80000000;
+  int mask=(~firstBit)>>n;
+  return mask&(x>>n);
 }
 /*
  * bitCount - returns count of number of 1's in word
@@ -181,26 +179,26 @@ int logicalShift(int x, int n) {
 int bitCount(int x) {
   return 2;
 }
-/* 
+/*
  * bang - Compute !x without using !
  *   Examples: bang(3) = 0, bang(0) = 1
  *   Legal ops: ~ & ^ | + << >>
  *   Max ops: 12
- *   Rating: 4 
+ *   Rating: 4
  */
 int bang(int x) {
   return 2;
 }
-/* 
+/*
  * tmin - return minimum two's complement integer 
  *   Legal ops: ! ~ & ^ | + << >>
  *   Max ops: 4
  *   Rating: 1
  */
 int tmin(void) {
-  return 2;
+  return (1<<31)>>31;
 }
-/* 
+/*
  * fitsBits - return 1 if x can be represented as an 
  *  n-bit, two's complement integer.
  *   1 <= n <= 32
@@ -210,9 +208,13 @@ int tmin(void) {
  *   Rating: 2
  */
 int fitsBits(int x, int n) {
-  return 2;
+  int Firstbit=x&(1<<31);
+  int mask=Firstbit>>31;
+  int shiftedx=x>>n;
+  int result=mask^shiftedx;
+  return !result;
 }
-/* 
+/*
  * divpwr2 - Compute x/(2^n), for 0 <= n <= 30
  *  Round toward zero
  *   Examples: divpwr2(15,1) = 7, divpwr2(-33,4) = -2
@@ -223,7 +225,7 @@ int fitsBits(int x, int n) {
 int divpwr2(int x, int n) {
     return 2;
 }
-/* 
+/*
  * negate - return -x 
  *   Example: negate(1) = -1.
  *   Legal ops: ! ~ & ^ | + << >>
@@ -231,9 +233,9 @@ int divpwr2(int x, int n) {
  *   Rating: 2
  */
 int negate(int x) {
-  return 2;
+  return ~x+1;
 }
-/* 
+/*
  * isPositive - return 1 if x > 0, return 0 otherwise 
  *   Example: isPositive(-1) = 0.
  *   Legal ops: ! ~ & ^ | + << >>
@@ -241,9 +243,10 @@ int negate(int x) {
  *   Rating: 3
  */
 int isPositive(int x) {
-  return 2;
+  int mask=1<<31;
+  return !(mask&x);
 }
-/* 
+/*
  * isLessOrEqual - if x <= y  then return 1, else return 0 
  *   Example: isLessOrEqual(4,5) = 1.
  *   Legal ops: ! ~ & ^ | + << >>
@@ -263,7 +266,7 @@ int isLessOrEqual(int x, int y) {
 int ilog2(int x) {
   return 2;
 }
-/* 
+/*
  * float_neg - Return bit-level equivalent of expression -f for
  *   floating point argument f.
  *   Both the argument and result are passed as unsigned int's, but
@@ -275,9 +278,9 @@ int ilog2(int x) {
  *   Rating: 2
  */
 unsigned float_neg(unsigned uf) {
- return 2;
+  return uf^(1<<31);
 }
-/* 
+/*
  * float_i2f - Return bit-level equivalent of expression (float) x
  *   Result is returned as unsigned int, but
  *   it is to be interpreted as the bit-level representation of a
@@ -289,7 +292,7 @@ unsigned float_neg(unsigned uf) {
 unsigned float_i2f(int x) {
   return 2;
 }
-/* 
+/*
  * float_twice - Return bit-level equivalent of expression 2*f for
  *   floating point argument f.
  *   Both the argument and result are passed as unsigned int's, but
