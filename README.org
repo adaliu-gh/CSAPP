@@ -5,4 +5,7 @@
 *** 预计时间一个学期再加一个寒假，只利用例外时间慢慢学
 ** 希望自己没有立下 flag
 ** labs
-*** 
+*** data lab
+**** <2016-09-13 二> 
+***** half solved in bits.c, half to go
+**** 
