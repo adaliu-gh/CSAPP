@@ -62,7 +62,7 @@ INTEGER CODING RULES:
   7. Use any data type other than int.  This implies that you
      cannot use arrays, structs, or unions.
 
- 
+
   You may assume that your machine:
   1. Uses 2s complement, 32-bit representations of integers.
   2. Performs right shifts arithmetically.
@@ -121,18 +121,18 @@ NOTES:
 
 /*
  * STEP 2: Modify the following functions according the coding rules.
- * 
+ *
  *   IMPORTANT. TO AVOID GRADING SURPRISES:
  *   1. Use the dlc compiler to check that your solutions conform
  *      to the coding rules.
- *   2. Use the BDD checker to formally verify that your solutions produce 
+ *   2. Use the BDD checker to formally verify that your solutions produce
  *      the correct answers.
  */
 
 
 #endif
-/* 
- * bitAnd - x&y using only ~ and | 
+/*
+ * bitAnd - x&y using only ~ and |
  *   Example: bitAnd(6, 5) = 4
  *   Legal ops: ~ |
  *   Max ops: 8
@@ -152,9 +152,6 @@ int bitAnd(int x, int y) {
 int getByte(int x, int n) {
   int mask=0xff<<(n<<3);
   return (x&mask)>>(n<<3);
-
-  /*another method (if unsigned int is allowed):
-   *x<<((3-n)<<3)>>24;
 }
 /*
  * logicalShift - shift x to the right by n, using a logical shift
@@ -165,7 +162,7 @@ int getByte(int x, int n) {
  *   Rating: 3
  */
 int logicalShift(int x, int n) {
-  int firstBit=x&0x80000000;
+  int firstBit=x&(0x1<<31);
   int mask=(~firstBit)>>n;
   return mask&(x>>n);
 }
@@ -177,7 +174,19 @@ int logicalShift(int x, int n) {
  *   Rating: 4
  */
 int bitCount(int x) {
-  return 2;
+  //not my solution, but from http://blog.csdn.net/u014124795/article/details/38471797
+  int tmp=((0x1<<8|0x1)<<8|0x1)<<8|0x1;
+  int val =x&tmp;
+  val+=(x>>1)&tmp;
+  val+=(x>>2)&tmp;
+  val+=(x>>3)&tmp;
+  val+=(x>>4)&tmp;
+  val+=(x>>5)&tmp;
+  val+=(x>>6)&tmp;
+  val+=(x>>7)&tmp;
+  val+=(val>>16);
+  val+=(val>>8);
+  return val&0xff;
 }
 /*
  * bang - Compute !x without using !
@@ -187,7 +196,12 @@ int bitCount(int x) {
  *   Rating: 4
  */
 int bang(int x) {
-  return 2;
+  x=x|(x>>16);
+  x=x|(x>>8);
+  x=x|(x>>4);
+  x=x|(x>>2);
+  x=x|(x>>1);
+  return 0x1^(x&0x1);
 }
 /*
  * tmin - return minimum two's complement integer 
@@ -196,7 +210,7 @@ int bang(int x) {
  *   Rating: 1
  */
 int tmin(void) {
-  return (1<<31)>>31;
+  return (1<<31);
 }
 /*
  * fitsBits - return 1 if x can be represented as an 
@@ -208,9 +222,8 @@ int tmin(void) {
  *   Rating: 2
  */
 int fitsBits(int x, int n) {
-  int Firstbit=x&(1<<31);
-  int mask=Firstbit>>31;
-  int shiftedx=x>>n;
+  int mask=x>>31;
+  int shiftedx=x>>(n+(~0x1+1));
   int result=mask^shiftedx;
   return !result;
 }
@@ -223,10 +236,12 @@ int fitsBits(int x, int n) {
  *   Rating: 2
  */
 int divpwr2(int x, int n) {
-    return 2;
+  int bias=(0x1<<n)+(~n+1);
+  int realbias=bias&(x>>31);
+  return (x+realbias)>>n;
 }
 /*
- * negate - return -x 
+ * negate - return -x
  *   Example: negate(1) = -1.
  *   Legal ops: ! ~ & ^ | + << >>
  *   Max ops: 5
@@ -247,14 +262,15 @@ int isPositive(int x) {
   return !(mask&x);
 }
 /*
- * isLessOrEqual - if x <= y  then return 1, else return 0 
+ * isLessOrEqual - if x <= y  then return 1, else return 0
  *   Example: isLessOrEqual(4,5) = 1.
  *   Legal ops: ! ~ & ^ | + << >>
  *   Max ops: 24
  *   Rating: 3
  */
 int isLessOrEqual(int x, int y) {
-  return 2;
+  int diff=y+(~x+1);
+  return !(diff>>31);
 }
 /*
  * ilog2 - return floor(log base 2 of x), where x > 0
@@ -278,7 +294,7 @@ int ilog2(int x) {
  *   Rating: 2
  */
 unsigned float_neg(unsigned uf) {
-  return uf^(1<<31);
+  return 2;
 }
 /*
  * float_i2f - Return bit-level equivalent of expression (float) x
