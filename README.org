@@ -9,4 +9,6 @@
 **** <2016-09-13 二> 
 ***** half solved in bits.c, half to go
 *** bomb lab
-**** <2016-09-29 四> 6 assembly bombs defused ~ 算是对汇编和逆向有个大致的了解，lab中的炸弹一个比一个烧脑，请不要随意入坑
+**** <2016-09-29 四> 
+答案详见[[./bomb/answer.org]]
+6 assembly bombs defused ~ 算是对汇编和逆向有个大致的了解，lab中的炸弹一个比一个烧脑，请不要随意入坑
