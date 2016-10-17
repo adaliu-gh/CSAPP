@@ -14,4 +14,5 @@
 6 assembly bombs defused ~ 算是对汇编和逆向有个大致的了解，lab中的炸弹一个比一个烧脑，请不要随意入坑
 ** chapters
 *** chapter 4 finished <2016-10-07 五> 
+*** chapter 5 finished <2016-10-14 五> 
 
